@@ -12,6 +12,7 @@ modes = `./setresx --modes`.chomp("\n").split("\n").map do |line|
   mode['width'] = mode['resolution'].split('x')[0]
   mode['height'] = mode['resolution'].split('x')[1]
   mode['dpi'] = mode['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
+  mode['id'] = "#{mode['resolution']}x#{mode['scale']}"
   mode
 end
 
@@ -24,10 +25,10 @@ Alfred.with_friendly_error do |alfred|
     end
 
     fb.add_item({
-                    :uid => '',
+                    :uid => mode['id'],
                     :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
                     :subtitle => "Change resolution to #{mode['width']} width and #{mode['height']} height at #{mode['dpi']} mode",
-                    :arg => "#{mode['resolution']}x#{mode['scale']}",
+                    :arg => mode['id'],
                     :valid => 'yes',
                 })
 
