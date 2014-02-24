@@ -2,7 +2,27 @@
 
 Handy workflow to change between available screen resolutions, even between normal and HiDPI mode (Retina).
 
+It allows you to list and search available resolutions, and action the result to do the change. The change persists between logout (ex: restart, shutdown, etc).
+
+It filter's out duplicated resolutions where a retina resolution is available, for example, if you have 1280x960 both retina and non-retina, you'll only see the retina option; no need to se the pixelated one.
+
 ## Usage
+
+Type the keyword ```setres``` to show a list of resolutions. You'll see that the first result is actually a non-actionable result which shows the current resolution.
+
+![list](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/list.png)
+
+You can also type after the space to search for resolutions (searches the numbers).
+
+![search](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/search.png)
+
+The available resolutions list is usually quite large. You can delete available resolutions from the list by action the result while holding the ```⌥ (alt)``` key.
+
+![remove](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/remove.png)
+
+If you connect a different display, or want to undo a deleted resolution you need to reset the list by actioning the keyword `setreset`
+
+![reset](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/reset.png)
 
 
 ## Multiple Displays
