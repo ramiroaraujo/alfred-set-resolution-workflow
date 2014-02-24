@@ -28,13 +28,15 @@ Alfred.with_friendly_error do |alfred|
   end
 
   if resolutions.length > 0
-    # adds current resolution as non actionable item
-    fb.add_item({
-                    :title => "Current Resolution: #{current_resolution['resolution']} at #{current_resolution['dpi']}",
-                    :subtitle => 'Select a new resolution from the list or type to search',
-                    :arg => '',
-                    :valid => 'no',
-                })
+    if filter =~ /^\s*$/
+      # adds current resolution as non actionable item
+      fb.add_item({
+                      :title => "Current Resolution: #{current_resolution['resolution']} at #{current_resolution['dpi']}",
+                      :subtitle => 'Select a new resolution from the list or type to search',
+                      :arg => '',
+                      :valid => 'no',
+                  })
+    end
 
     # iterates and performs search filter if present
     resolutions.each do |mode|
