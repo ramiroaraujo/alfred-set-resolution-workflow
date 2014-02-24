@@ -1,15 +1,15 @@
 ## workflow build config
 
 # id and name for the workflow (bundle id = domain.id)
-id: alfred-screencapture-enhancer-workflow
+id: alfred-set-resolution-workflow
 
 # base domain
 domain: com.tumblr.ramiroaraujo
 
-name: Screencapture
-description: A screencapture enhancer workflow capable of capturing the last region and naming captured files.
+name: Set Resolution
+description: A workflow to change between available resolutions on your display, specially handy for Retina displays.
 created_by: Ramiro Araujo
-website: https://github.com/ramiroaraujo/alfred-screencapture-enhancer-workflow
+website: https://github.com/ramiroaraujo/alfred-set-resolution-workflow
 readme: readme
 
 ## development config

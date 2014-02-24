@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>com.tumblr.ramiroaraujo.alfred-screencapture-enhancer-workflow</string>
+	<string>com.tumblr.ramiroaraujo.alfred-set-resolution-workflow</string>
 	<key>connections</key>
 	<dict>
 		<key>0B3DD69D-C9E3-4C88-B5F9-441244C7DE7B</key>
@@ -133,11 +133,11 @@
 	<key>createdby</key>
 	<string>Ramiro Araujo</string>
 	<key>description</key>
-	<string>A screencapture enhancer workflow capable of capturing the last region and naming captured files.</string>
+	<string>A workflow to change between available resolutions on your display, specially handy for Retina displays.</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Screencapture</string>
+	<string>Set Resolution</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -537,6 +537,6 @@
 		</dict>
 	</dict>
 	<key>webaddress</key>
-	<string>https://github.com/ramiroaraujo/alfred-screencapture-enhancer-workflow</string>
+	<string>https://github.com/ramiroaraujo/alfred-set-resolution-workflow</string>
 </dict>
 </plist>
