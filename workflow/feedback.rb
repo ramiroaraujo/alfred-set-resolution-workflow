@@ -57,7 +57,7 @@ Alfred.with_friendly_error do |alfred|
     # iterates and performs search filter if present
     modes.each do |mode|
       fb.add_item({
-                      :uid => mode['id'],
+                      #:uid => mode['id'],
                       :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
                       :subtitle => "Change resolution to #{mode['width']} width and #{mode['height']} height at #{mode['dpi']} mode",
                       :arg => mode['id'],
