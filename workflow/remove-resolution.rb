@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require_relative 'workflow_config.rb'
+require 'workflow_config.rb'
 
 resolution_id = ARGV[0]
 config = WorkflowConfig.new

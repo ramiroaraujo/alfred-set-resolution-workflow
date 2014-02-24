@@ -1,4 +1,4 @@
-require_relative 'bundle/bundler/setup'
+require 'bundle/bundler/setup'
 require 'alfred'
 require 'yaml'
 
