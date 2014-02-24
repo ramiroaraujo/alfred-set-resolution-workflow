@@ -1,7 +1,5 @@
 # Set Resolution Workflow for Alfred App
 
-> Note, this is the pre-mavericks branch. For the Mavericks branch go to the [master branch](https://github.com/ramiroaraujo/alfred-set-resolution-workflow)
-
 Handy workflow to change between available screen resolutions, even between normal and HiDPI mode (Retina).
 
 It allows you to list and search available resolutions, and action the result to do the change. The change persists between logout (ex: restart, shutdown, etc).
