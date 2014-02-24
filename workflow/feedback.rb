@@ -28,6 +28,7 @@ Alfred.with_friendly_error do |alfred|
   end
 
   if resolutions.length > 0
+    # if there's no filter
     if filter =~ /^\s*$/
       # adds current resolution as non actionable item
       fb.add_item({
