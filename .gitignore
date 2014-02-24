@@ -5,4 +5,4 @@ workflow/bundle
 
 # avoid continuous changes to iml file
 # *.iml
-workflow/coordinates
+workflow/resolutions.yml
