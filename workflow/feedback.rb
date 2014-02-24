@@ -6,6 +6,7 @@ require 'alfred'
 
 filter = ARGV[0].to_s.downcase
 
+# get full resolution list from cli app, and parse data into array of hashes
 modes = `./setresx --modes`.chomp("\n").split("\n").map do |line|
   mode = {}
   line[7..-2].split(', ').each { |opt| opt = opt.split(/\s*=\s*/); mode[opt[0]] = opt[1] }
@@ -16,9 +17,17 @@ modes = `./setresx --modes`.chomp("\n").split("\n").map do |line|
   mode
 end
 
+# removes normal resolutions that are available as HiDPI
+modes.reject! do |mode|
+  false if mode['scale'] == '2.0'
+  true if mode['scale'] == '1.0' && modes.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
+end
+
+
 Alfred.with_friendly_error do |alfred|
   fb = alfred.feedback
 
+  # iterates and performs search filter if present
   modes.each do |mode|
     unless filter =~ /^\s*$/
       next unless mode['resolution'] =~ /#{filter}/ || mode['dpi'] =~ /#{filter}/
@@ -34,6 +43,7 @@ Alfred.with_friendly_error do |alfred|
 
   end
 
+  # shows no result message
   if fb.to_xml().to_s == '<items/>'
     fb.add_item({
                     :uid => '',
