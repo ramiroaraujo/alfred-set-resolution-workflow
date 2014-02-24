@@ -27,7 +27,7 @@ Alfred.with_friendly_error do |alfred|
                     :uid => '',
                     :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
                     :subtitle => "Change resolution to #{mode['width']} width and #{mode['height']} height at #{mode['dpi']} mode",
-                    :arg => mode['resolution'],
+                    :arg => "#{mode['resolution']}x#{mode['scale']}",
                     :valid => 'yes',
                 })
 
