@@ -2,50 +2,32 @@
 # encoding: utf-8
 
 require_relative 'bundle/bundler/setup'
+require_relative 'workflow_config.rb'
 require 'alfred'
 
 filter = ARGV[0].to_s.downcase
 
+# config / data
+config = WorkflowConfig.new
+
 # get current resolution
-current_resolution = {}
-`./setresx -ld`.chomp("\n")[12..-2].split(', ').each do |opt|
-  opt = opt.split(/\s*=\s*/)
-  current_resolution[opt[0]] =opt[1]
-  current_resolution['width'] = current_resolution['resolution'].split('x')[0]
-  current_resolution['height'] = current_resolution['resolution'].split('x')[1]
-  current_resolution['dpi'] = current_resolution['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
-end
+current_resolution = config.get_current_resolution
 
-# get full resolution list from cli app, and parse data into array of hashes
-modes = `./setresx --modes`.chomp("\n").split("\n").map do |line|
-  mode = {}
-  line[7..-2].split(', ').each { |opt| opt = opt.split(/\s*=\s*/); mode[opt[0]] = opt[1] }
-  mode['width'] = mode['resolution'].split('x')[0]
-  mode['height'] = mode['resolution'].split('x')[1]
-  mode['dpi'] = mode['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
-  mode['id'] = "#{mode['resolution']}x#{mode['scale']}"
-  mode
-end
-
-# removes normal resolutions that are available as HiDPI
-modes.reject! do |mode|
-  false if mode['scale'] == '2.0'
-  true if mode['scale'] == '1.0' && modes.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
-end
+# get resolution list
+resolutions = config.get_resolutions
 
 # removes current resolution
-modes = modes.delete_if { |mode| mode['resolution'] == current_resolution['resolution'] }
-
+resolutions = resolutions.delete_if { |mode| mode['resolution'] == current_resolution['resolution'] }
 
 Alfred.with_friendly_error do |alfred|
   fb = alfred.feedback
 
   # search filter if present
-  modes.reject! do |mode|
+  resolutions.reject! do |mode|
     true unless mode['resolution'] =~ /#{filter}/
   end
 
-  if modes.length > 0
+  if resolutions.length > 0
     # adds current resolution as non actionable item
     fb.add_item({
                     :title => "Current Resolution: #{current_resolution['resolution']} at #{current_resolution['dpi']}",
@@ -55,7 +37,7 @@ Alfred.with_friendly_error do |alfred|
                 })
 
     # iterates and performs search filter if present
-    modes.each do |mode|
+    resolutions.each do |mode|
       fb.add_item({
                       #:uid => mode['id'],
                       :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
