@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpServers">
-    <option name="servers">
-      <server host="http://localhost" name="localhost" />
-    </option>
-  </component>
   <component name="PhpUnit" load_method="CUSTOM_LOADER" custom_loader_path="/usr/local/bin/phpunit" phpunit_phar_path="" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
