@@ -4,7 +4,7 @@ Handy workflow to change between available screen resolutions, even between norm
 
 It allows you to list and search available resolutions, and action the result to do the change. The change persists between logout (ex: restart, shutdown, etc).
 
-It filter's out duplicated resolutions where a retina resolution is available, for example, if you have 1280x960 both retina and non-retina, you'll only see the retina option; no need to se the pixelated one.
+It filter's out duplicated resolutions where a retina resolution is available, for example, if you have available 1280x960 in both retina and non-retina, you'll only see the retina option; no need to set the pixelated one.
 
 ## Usage
 
