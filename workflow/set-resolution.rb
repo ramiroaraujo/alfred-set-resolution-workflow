@@ -10,4 +10,4 @@ unless result
   exit 1
 end
 
-print ARGV[0]
+print "#{width}x#{height}"

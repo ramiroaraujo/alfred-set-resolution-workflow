@@ -11,6 +11,9 @@ current_resolution = {}
 `./setresx -ld`.chomp("\n")[12..-2].split(', ').each do |opt|
   opt = opt.split(/\s*=\s*/)
   current_resolution[opt[0]] =opt[1]
+  current_resolution['width'] = current_resolution['resolution'].split('x')[0]
+  current_resolution['height'] = current_resolution['resolution'].split('x')[1]
+  current_resolution['dpi'] = current_resolution['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
 end
 
 # get full resolution list from cli app, and parse data into array of hashes
@@ -37,24 +40,32 @@ modes = modes.delete_if { |mode| mode['resolution'] == current_resolution['resol
 Alfred.with_friendly_error do |alfred|
   fb = alfred.feedback
 
-  # iterates and performs search filter if present
-  modes.each do |mode|
-    unless filter =~ /^\s*$/
-      next unless mode['resolution'] =~ /#{filter}/ || mode['dpi'] =~ /#{filter}/
-    end
-
-    fb.add_item({
-                    :uid => mode['id'],
-                    :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
-                    :subtitle => "Change resolution to #{mode['width']} width and #{mode['height']} height at #{mode['dpi']} mode",
-                    :arg => mode['id'],
-                    :valid => 'yes',
-                })
-
+  # search filter if present
+  modes.reject! do |mode|
+    true unless mode['resolution'] =~ /#{filter}/
   end
 
-  # shows no result message
-  if fb.to_xml().to_s == '<items/>'
+  if modes.length > 0
+    # adds current resolution as non actionable item
+    fb.add_item({
+                    :title => "Current Resolution: #{current_resolution['resolution']} at #{current_resolution['dpi']}",
+                    :subtitle => 'Select a new resolution from the list or type to search',
+                    :arg => '',
+                    :valid => 'no',
+                })
+
+    # iterates and performs search filter if present
+    modes.each do |mode|
+      fb.add_item({
+                      :uid => mode['id'],
+                      :title => "Switch to #{mode['resolution']} at #{mode['dpi']}",
+                      :subtitle => "Change resolution to #{mode['width']} width and #{mode['height']} height at #{mode['dpi']} mode",
+                      :arg => mode['id'],
+                      :valid => 'yes',
+                  })
+    end
+  else
+    # shows no result message
     fb.add_item({
                     :uid => '',
                     :title => 'No results for your search',
@@ -62,7 +73,6 @@ Alfred.with_friendly_error do |alfred|
                     :arg => '',
                     :valid => 'no',
                 })
-
   end
 
   puts fb.to_xml()
