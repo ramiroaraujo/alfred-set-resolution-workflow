@@ -6,6 +6,13 @@ require 'alfred'
 
 filter = ARGV[0].to_s.downcase
 
+# get current resolution
+current_resolution = {}
+`./setresx -ld`.chomp("\n")[12..-2].split(', ').each do |opt|
+  opt = opt.split(/\s*=\s*/)
+  current_resolution[opt[0]] =opt[1]
+end
+
 # get full resolution list from cli app, and parse data into array of hashes
 modes = `./setresx --modes`.chomp("\n").split("\n").map do |line|
   mode = {}
@@ -22,6 +29,9 @@ modes.reject! do |mode|
   false if mode['scale'] == '2.0'
   true if mode['scale'] == '1.0' && modes.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
 end
+
+# removes current resolution
+modes = modes.delete_if { |mode| mode['resolution'] == current_resolution['resolution'] }
 
 
 Alfred.with_friendly_error do |alfred|
