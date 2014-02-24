@@ -112,12 +112,6 @@ task :export => [:config] do
   filename = "#{$config['id'].chomp '-workflow'}.alfredworkflow"
   output = 'output'
 
-  # reset old packaged workflow
-  `/usr/local/bin/git checkout #{filename}`
-
-  # save uncommited changes
-  `/usr/local/bin/git stash`
-
   FileUtils.rm filename if File.exists? filename
   FileUtils.rmtree output if File.exists? output
 
@@ -128,12 +122,7 @@ task :export => [:config] do
 
     # clean up workflow files for export
     Dir.foreach('.') do |file|
-      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle coordinates pbpaste-image save-mouse-coordinates).include? file
-    end
-
-    Dir.chdir '../save-mouse-coordinates' do
-      `xcodebuild`
-      FileUtils.cp 'build/Release/save-mouse-coordinates', '../output'
+      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle coordinates).include? file
     end
 
     begin
@@ -170,9 +159,6 @@ task :export => [:config] do
 
 
   FileUtils.rmtree output
-
-  # restore uncommited changes
-  `/usr/local/bin/git stash apply`
 
   puts 'Workflow exported to project directory'
 end
