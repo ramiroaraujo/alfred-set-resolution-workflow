@@ -12,7 +12,7 @@ Type the keyword ```setresolution``` to show a list of resolutions. You'll see t
 
 ![list](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/list.png)
 
-If you have more than one display, you'll see instead the displays to select, and by action on any display the workflow will reload with the display index and after the keyword, and ready to search/select the proper resolutions.
+If you have more than one display, you'll see instead the displays to select, and by actioning on any display the workflow will reload with the display index and after the keyword, and ready to search/select the proper resolutions. When using multiple displays, the display index _is_ needed, but you can write it down yourself to make it faster, like ```setresolution 1 1280``` to search for 1280 on display index 1 (the second from the list)
 
 ![displays](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/displays.png)
 
@@ -20,7 +20,7 @@ You can also type after the space to search for resolutions (searches the number
 
 ![search](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/search.png)
 
-The available resolutions list is usually quite large. You can delete available resolutions from the list by action the result while holding the ```⌥ (alt)``` key.
+The available resolutions list is usually quite large. You can delete available resolutions from the list by actioning the result while holding the ```⌥ (alt)``` key.
 
 ![remove](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/remove.png)
 
