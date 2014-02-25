@@ -4,39 +4,36 @@ require 'yaml'
 
 class WorkflowConfig
 
-  @resolutions
+  @displays
 
   @file
 
   def initialize
-    @file = 'resolutions.yml'
-    load_resolutions
+    @file = 'display_resolutions.yml'
+    load_display_resolutions
   end
 
-  def get_current_resolution
-    current_resolution = {}
-    `./setresx -ld`.chomp("\n")[12..-2].split(', ').each do |opt|
-      opt = opt.split(/\s*=\s*/)
-      current_resolution[opt[0]] =opt[1]
-      current_resolution['width'] = current_resolution['resolution'].split('x')[0]
-      current_resolution['height'] = current_resolution['resolution'].split('x')[1]
-      current_resolution['dpi'] = current_resolution['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
-    end
-    current_resolution
+  def get_displays
+    @displays
   end
 
-  def get_resolutions
-    @resolutions
+  def get_current_resolution display
+    get_resolution display, @displays[display][:current_mode]
   end
 
-  def get_resolution(id)
-    @resolutions.detect do |resolution|
-      resolution['id'] == id
+  def get_resolutions display
+    @displays[display][:modes]
+  end
+
+  def get_resolution(display, id)
+    @displays[display][:modes].detect do |resolution|
+      equal = resolution[:id] == id
+      equal
     end
   end
 
-  def remove_resolution(id)
-    @resolutions.reject! do |resolution|
+  def remove_resolution(display, id)
+    @displays[display].reject! do |resolution|
       true if resolution['id'] == id
     end
 
@@ -45,36 +42,49 @@ class WorkflowConfig
   end
 
 
-  def load_resolutions
-    @resolutions = YAML.load(File.open @file) if File.exist? @file
-    rebuild_resolutions if !@resolutions
+  def load_display_resolutions
+    @displays = YAML.load(File.open @file) if File.exist? @file
+    rebuild_resolutions if !@displays
   end
 
   def rebuild_resolutions
+
     # get full resolution list from cli app, and parse data into array of hashes
-    @resolutions = `./setresx --modes`.chomp("\n").split("\n").map do |line|
-      mode = {}
-      line[7..-2].split(', ').each { |opt| opt = opt.split(/\s*=\s*/); mode[opt[0]] = opt[1] }
-      mode['width'] = mode['resolution'].split('x')[0]
-      mode['height'] = mode['resolution'].split('x')[1]
-      mode['dpi'] = mode['scale'] == '2.0' ? 'HiDPI' : 'normal resolution'
-      mode['id'] = "#{mode['resolution']}x#{mode['scale']}"
-      mode
+    list = `./resolution-cli list`
+    list.strip!
+
+    @displays = list.scan(/^\d+: (.+)$/).map { |d| {:name => d[0], :modes => [], :current_mode => ''} }
+    list.split(/^\d+: .+$/)[1..-1].each_with_index do |modes_string, display_index|
+      modes_string.strip.split("\n").each do |mode_string|
+        match = /^(?<current>>>>)?\s*(?<width>\d+)\s+x\s+(?<height>\d+) @ (?<bits>\d+) bits ?(?<dpi>HiDPI)?$/.match(mode_string)
+        mode = {
+            width: match[:width],
+            height: match[:height],
+            bits: match[:bits],
+            hidpi: !!match[:dpi],
+            dpi: !!match[:dpi] ? 'HiDPI' : 'normal resolution',
+            id: "#{display_index}@#{match[:width]}x#{match[:height]}@#{match[:bits]}#{!!match[:dpi] ? 'h' : ''}"
+        }
+        @displays[display_index][:modes] << mode
+        @displays[display_index][:current_mode] = mode[:id] if match[:current]
+      end
     end
 
     # removes normal resolutions that are available as HiDPI
-    @resolutions.reject! do |mode|
-      false if mode['scale'] == '2.0'
-      true if mode['scale'] == '1.0' && @resolutions.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
-    end
+    #@displays.reject! do |mode|
+    #  false if mode['scale'] == '2.0'
+    #  true if mode['scale'] == '1.0' && @displays.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
+    #end
+
+    # @todo remove displays with only one option
 
     write_config
   end
 
 
   def write_config
-    File.open(@file, 'w') { |f| f.write(@resolutions.to_yaml) }
+    File.open(@file, 'w') { |f| f.write(@displays.to_yaml) }
   end
 
-  private :load_resolutions, :write_config
+  private :load_display_resolutions, :write_config
 end
