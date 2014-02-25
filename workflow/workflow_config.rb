@@ -83,7 +83,7 @@ class WorkflowConfig
     @displays.each do |display|
       display[:modes].reject! do |mode|
         false if mode[:hidpi]
-        true if !mode[:hidpi] && display[:modes].any? { |m| m[:width] == mode[:width] && m[:height] == mode[:height] }
+        true if !mode[:hidpi] && display[:modes].any? { |m| m[:id] == "#{mode[:id]}h"}
       end
     end
 
