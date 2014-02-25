@@ -4,7 +4,7 @@
 query = ARGV[0]
 
 if query =~ /^\d+$/
-  `osascript -e 'tell app "Alfred 2" to search "setres #{query} "'`
+  `osascript -e 'tell app "Alfred 2" to search "setresolution #{query} "'`
 else
   # extract values
   display, width, height, bits, hidpi = ARGV[0].match(/(\d+)@(\d+)x(\d+)@(\d+)(h?)/).captures
