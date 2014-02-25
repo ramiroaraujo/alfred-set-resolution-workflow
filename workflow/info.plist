@@ -165,7 +165,7 @@
 				<key>sticky</key>
 				<false/>
 				<key>text</key>
-				<string>removed {query} from the resolution list</string>
+				<string>removed {query} from the list</string>
 				<key>title</key>
 				<string>Resolution removed</string>
 			</dict>
