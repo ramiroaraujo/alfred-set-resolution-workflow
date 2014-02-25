@@ -9,7 +9,7 @@ else
   # extract values
   display, width, height, bits, hidpi = ARGV[0].match(/(\d+)@(\d+)x(\d+)@(\d+)(h?)/).captures
 
-  result = system("./resolution-cli set #{display} #{width}x#{height}@#{bits}#{hidpi}")
+  `./resolution-cli set #{display} #{width}x#{height}@#{bits}#{hidpi}`; result= $?.success?
 
   unless result
     `/usr/bin/afplay /System/Library/Sounds/Funk.aiff`

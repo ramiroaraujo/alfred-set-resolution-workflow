@@ -48,7 +48,6 @@ class WorkflowConfig
   end
 
   def rebuild_resolutions
-
     # get full resolution list from cli app, and parse data into array of hashes
     list = `./resolution-cli list`
     list.strip!
@@ -71,14 +70,15 @@ class WorkflowConfig
     end
 
     # removes normal resolutions that are available as HiDPI
-    #@displays.reject! do |mode|
-    #  false if mode['scale'] == '2.0'
-    #  true if mode['scale'] == '1.0' && @displays.any? { |m| m['id'] == "#{mode['width']}x#{mode['height']}x2.0" }
-    #end
+    @displays.each do |display|
+      display[:modes].reject! do |mode|
+        false if mode[:hidpi]
+        true if !mode[:hidpi] && display[:modes].any? { |m| m[:width] == mode[:width] && m[:height] == mode[:height] }
+      end
+    end
 
-    # @todo remove displays with only one option
-
-    write_config
+    # remove displays with only one option
+    @displays.reject! { |display| true if display[:modes].length <= 1 }
   end
 
 
