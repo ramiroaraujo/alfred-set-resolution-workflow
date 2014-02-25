@@ -18,7 +18,17 @@ class WorkflowConfig
   end
 
   def get_current_resolution display
-    get_resolution display, @displays[display][:current_mode]
+    current = `./resolution-cli current #{display}`
+    width, height, bits, hidpi = current.match(/^(\d+) x (\d+) @ (\d+) bits ?(HiDPI)?$/).captures
+    mode = {
+        width: width,
+        height: height,
+        bits: bits,
+        hidpi: !!hidpi,
+        dpi: !!hidpi ? 'HiDPI' : 'normal resolution',
+        id: "#{display}@#{width}x#{height}@#{bits}#{!!hidpi ? 'h' : ''}"
+    }
+
   end
 
   def get_resolutions display
@@ -26,15 +36,15 @@ class WorkflowConfig
   end
 
   def get_resolution(display, id)
-    @displays[display][:modes].detect do |resolution|
-      equal = resolution[:id] == id
-      equal
+    resolution = @displays[display][:modes].detect do |resolution|
+      resolution[:id] == "#{display}@#{id}"
     end
+    resolution
   end
 
   def remove_resolution(display, id)
-    @displays[display].reject! do |resolution|
-      true if resolution['id'] == id
+    @displays[display][:modes].reject! do |resolution|
+      true if resolution[:id] == "#{display}@#{id}"
     end
 
     # write config back
@@ -79,6 +89,9 @@ class WorkflowConfig
 
     # remove displays with only one option
     @displays.reject! { |display| true if display[:modes].length <= 1 }
+
+    # write config back to yaml
+    write_config
   end
 
 
