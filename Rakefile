@@ -122,7 +122,7 @@ task :export => [:config] do
 
     # clean up workflow files for export
     Dir.foreach('.') do |file|
-      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle resolution-cli).include? file
+      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle resolution-cli display_resolutions.yml).include? file
     end
 
     Dir.chdir '../ResolutionMenu' do
