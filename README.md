@@ -29,10 +29,6 @@ If you connect a different display, or want to undo a deleted resolution you nee
 ![reset](https://raw.github.com/ramiroaraujo/alfred-set-resolution-workflow/master/screenshots/reset.png)
 
 
-## Multiple Displays
-
-The workflow does not support multiple displays, although the cli app does. Since I don't have a second display to develop and test, I haven't implemented it. Happy to accept PL from others here.
-
 ## Installation
 For OS X 10.9 Mavericks, Download the [alfred-set-resolution.alfredworkflow](https://github.com/ramiroaraujo/alfred-set-resolution-workflow/raw/master/alfred-set-resolution.alfredworkflow) and import to Alfred 2.
 
