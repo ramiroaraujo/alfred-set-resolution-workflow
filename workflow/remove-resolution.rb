@@ -3,9 +3,10 @@
 
 require 'workflow_config.rb'
 
-resolution_id = ARGV[0]
 config = WorkflowConfig.new
-resolution = config.get_resolution resolution_id
-config.remove_resolution resolution_id
+display, id = ARGV[0].match(/(\d+)@(.+)/).captures
+display = display.to_i
+resolution = config.get_resolution display, id
+config.remove_resolution display, id
 
-print resolution['resolution']
+print "#{resolution[:width]}x#{resolution[:height]}"

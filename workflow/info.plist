@@ -105,7 +105,7 @@
 				<key>escaping</key>
 				<integer>4</integer>
 				<key>keyword</key>
-				<string>setres</string>
+				<string>setresolution</string>
 				<key>runningsubtext</key>
 				<string>working...</string>
 				<key>script</key>
@@ -165,7 +165,7 @@
 				<key>sticky</key>
 				<false/>
 				<key>text</key>
-				<string>removed {query} from the resolution list</string>
+				<string>removed {query} from the list</string>
 				<key>title</key>
 				<string>Resolution removed</string>
 			</dict>
@@ -216,7 +216,7 @@
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
-				<string>setreset</string>
+				<string>resetresolution</string>
 				<key>subtext</key>
 				<string>resets the resolution list back to default</string>
 				<key>text</key>

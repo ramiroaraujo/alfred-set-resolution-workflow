@@ -1,13 +1,20 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-width, height, scale = ARGV[0].split 'x'
+query = ARGV[0]
 
-result = system("./setresx -w #{width} -h #{height} -s #{scale}");
+if query =~ /^\d+$/
+  `osascript -e 'tell app "Alfred 2" to search "setresolution #{query} "'`
+else
+  # extract values
+  display, width, height, bits, hidpi = ARGV[0].match(/(\d+)@(\d+)x(\d+)@(\d+)(h?)/).captures
 
-unless result
-  `/usr/bin/afplay /System/Library/Sounds/Funk.aiff`
-  exit 1
+  `./resolution-cli set #{display} #{width}x#{height}@#{bits}#{hidpi}`; result= $?.success?
+
+  unless result
+    `/usr/bin/afplay /System/Library/Sounds/Funk.aiff`
+    exit 1
+  end
+
+  print "#{width}x#{height}"
 end
-
-print "#{width}x#{height}"

@@ -122,7 +122,12 @@ task :export => [:config] do
 
     # clean up workflow files for export
     Dir.foreach('.') do |file|
-      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle coordinates).include? file
+      FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle resolution-cli display_resolutions.yml).include? file
+    end
+
+    Dir.chdir '../ResolutionMenu' do
+      `xcodebuild -target resolution-cli`
+      FileUtils.cp 'build/Release/resolution-cli', '../output'
     end
 
     begin
