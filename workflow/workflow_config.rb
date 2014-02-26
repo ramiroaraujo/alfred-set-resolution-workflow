@@ -17,16 +17,16 @@ class WorkflowConfig
     @displays
   end
 
-  def get_current_resolution display
+  def get_current_resolution(display)
     current = `./resolution-cli current #{display}`
     width, height, bits, hidpi = current.match(/^(\d+) x (\d+) @ (\d+) bits ?(HiDPI)?$/).captures
     mode = {
-        width: width,
-        height: height,
-        bits: bits,
-        hidpi: !!hidpi,
-        dpi: !!hidpi ? 'HiDPI' : 'normal resolution',
-        id: "#{display}@#{width}x#{height}@#{bits}#{!!hidpi ? 'h' : ''}"
+        :width => width,
+        :height => height,
+        :bits => bits,
+        :hidpi => !!hidpi,
+        :dpi => !!hidpi ? 'HiDPI' : 'normal resolution',
+        :id => "#{display}@#{width}x#{height}@#{bits}#{!!hidpi ? 'h' : ''}"
     }
 
   end
@@ -36,10 +36,9 @@ class WorkflowConfig
   end
 
   def get_resolution(display, id)
-    resolution = @displays[display][:modes].detect do |resolution|
+    @displays[display][:modes].detect do |resolution|
       resolution[:id] == "#{display}@#{id}"
     end
-    resolution
   end
 
   def remove_resolution(display, id)
@@ -65,17 +64,17 @@ class WorkflowConfig
     @displays = list.scan(/^\d+: (.+)$/).map { |d| {:name => d[0], :modes => [], :current_mode => ''} }
     list.split(/^\d+: .+$/)[1..-1].each_with_index do |modes_string, display_index|
       modes_string.strip.split("\n").each do |mode_string|
-        match = /^(?<current>>>>)?\s*(?<width>\d+)\s+x\s+(?<height>\d+) @ (?<bits>\d+) bits ?(?<dpi>HiDPI)?$/.match(mode_string)
+        matches = mode_string.match(/^(>>>)?\s*(\d+)\s+x\s+(\d+) @ (\d+) bits ?(HiDPI)?$/).captures
         mode = {
-            width: match[:width],
-            height: match[:height],
-            bits: match[:bits],
-            hidpi: !!match[:dpi],
-            dpi: !!match[:dpi] ? 'HiDPI' : 'normal resolution',
-            id: "#{display_index}@#{match[:width]}x#{match[:height]}@#{match[:bits]}#{!!match[:dpi] ? 'h' : ''}"
+            :width => matches[1],
+            :height => matches[2],
+            :bits => matches[3],
+            :hidpi => !!matches[4],
+            :dpi => !!matches[4] ? 'HiDPI' : 'normal resolution',
+            :id => "#{display_index}@#{matches[1]}x#{matches[2]}@#{matches[3]}#{!!matches[4] ? 'h' : ''}"
         }
         @displays[display_index][:modes] << mode
-        @displays[display_index][:current_mode] = mode[:id] if match[:current]
+        @displays[display_index][:current_mode] = mode[:id] if matches[0]
       end
     end
 
