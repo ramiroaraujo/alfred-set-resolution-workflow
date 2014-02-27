@@ -78,6 +78,15 @@ class WorkflowConfig
       end
     end
 
+    # removes 16 bits resolutions
+    @displays.each do |display|
+      display[:modes].reject! do |mode|
+        true if mode[:bits] == '16'
+      end
+    end
+
+
+
     # removes normal resolutions that are available as HiDPI
     @displays.each do |display|
       display[:modes].reject! do |mode|
