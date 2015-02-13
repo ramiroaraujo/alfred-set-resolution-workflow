@@ -6,6 +6,28 @@
 	<string>com.tumblr.ramiroaraujo.alfred-set-resolution-workflow</string>
 	<key>connections</key>
 	<dict>
+		<key>10196805-DC70-4F0E-A662-B01C32ED86A8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>89D045DB-E883-4056-AD4A-8F6C9E7F06C9</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>23CD0F34-C34D-4EB1-9887-D44495506ECB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>10196805-DC70-4F0E-A662-B01C32ED86A8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>3130FCF9-9A30-4FF0-A5EE-BEE3BAEB08F8</key>
 		<array>
 			<dict>
@@ -106,6 +128,14 @@
 				<integer>4</integer>
 				<key>keyword</key>
 				<string>setresolution</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
 				<key>runningsubtext</key>
 				<string>working...</string>
 				<key>script</key>
@@ -256,15 +286,89 @@
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>retina</string>
+				<key>subtext</key>
+				<string>Turns Retina on or off while keeping the resolution</string>
+				<key>text</key>
+				<string>Toggle Retina</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>23CD0F34-C34D-4EB1-9887-D44495506ECB</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>4</integer>
+				<key>script</key>
+				<string>/usr/bin/ruby ./toggle-retina.rb 
+</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>10196805-DC70-4F0E-A662-B01C32ED86A8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Retina is now {query}</string>
+				<key>title</key>
+				<string>Toggle Retina</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>89D045DB-E883-4056-AD4A-8F6C9E7F06C9</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>readme</string>
 	<key>uidata</key>
 	<dict>
+		<key>10196805-DC70-4F0E-A662-B01C32ED86A8</key>
+		<dict>
+			<key>ypos</key>
+			<real>370</real>
+		</dict>
 		<key>1B27CAC8-7961-491C-BF9D-0878AF61C1DF</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>23CD0F34-C34D-4EB1-9887-D44495506ECB</key>
+		<dict>
+			<key>ypos</key>
+			<real>370</real>
 		</dict>
 		<key>3130FCF9-9A30-4FF0-A5EE-BEE3BAEB08F8</key>
 		<dict>
@@ -285,6 +389,11 @@
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>89D045DB-E883-4056-AD4A-8F6C9E7F06C9</key>
+		<dict>
+			<key>ypos</key>
+			<real>370</real>
 		</dict>
 		<key>D146A9A1-2188-4D7F-84DE-68D81BE67E18</key>
 		<dict>
